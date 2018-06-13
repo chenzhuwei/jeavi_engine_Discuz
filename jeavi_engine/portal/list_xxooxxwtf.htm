@@ -1,0 +1,208 @@
+<!--{template common/header}-->
+<!--[name]Engine - 资讯列表[/name]-->
+<!--{eval $list = array();}-->
+<!--{eval $wheresql = category_get_wheresql($cat);}-->
+<!--{eval $list = category_get_list($cat, $wheresql, $page);}-->
+<div id="pt" class="bm cl">
+	<div class="z">
+		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a> <em>&rsaquo;</em>
+		<a href="$_G[setting][navs][1][filename]">{lang portal}</a> <em>&rsaquo;</em>
+		<!--{loop $cat[ups] $value}--> <a href="{$portalcategory[$value['catid']]['caturl']}">$value[catname]</a><em>&rsaquo;</em><!--{/loop}-->
+		$cat[catname]
+	</div>
+</div>
+<!--{ad/text/wp a_t}-->
+<style id="diy_style" type="text/css"></style>
+
+<div class="wp"> 
+  <!--[diy=diy1]-->
+  <div id="diy1" class="area"></div>
+  <!--[/diy]--> 
+</div>
+<div id="ct" class="ct2 wp cl">
+  <div class="mn"> 
+    <!--{ad/articlelist/mbm hm/1}--><!--{ad/articlelist/mbm hm/2}--> 
+    <!--[diy=listcontenttop]-->
+    <div id="listcontenttop" class="area"></div>
+    <!--[/diy]-->
+    <div class="bm">
+      <div class="portal-hd cl">
+        <h2>$cat[catname]</h2>
+        <!--{if $_G[setting][rssstatus] && !$_GET['archiveid']}--><a href="portal.php?mod=rss&catid=$cat[catid]" class="y rss" target="_blank" title="RSS">{lang rss_subscribe_this}</a><!--{/if}--> 
+        <!--{if ($_G['group']['allowpostarticle'] || $_G['group']['allowmanagearticle'] || $categoryperm[$catid]['allowmanage'] || $categoryperm[$catid]['allowpublish']) && empty($cat['disallowpublish'])}--> 
+        <a href="portal.php?mod=portalcp&ac=article&catid=$cat[catid]" class="y add">投稿</a> 
+        <!--{/if}--> 
+      </div>
+      
+      <!-- 文章列表 begin -->
+      
+      <ul class="pic-list cl animated fadeInUp"> 
+        <!--{loop $list['list'] $value}--> 
+        <!--{eval $highlight = article_title_style($value);}--> 
+        <!--{eval $article_url = fetch_article_url($value);}-->
+        <li class="photo-big">
+        
+        <!--{if $value[pic]}-->
+            <div class="photo-pic"> 
+              <a href="$article_url"><img src="$value[pic]" alt="$value[title]"/></a> 
+            
+              <a href="$article_url" title="$value[title]" class="mask"></a> </div>
+              
+          <!--{/if}--> 
+              
+            <h3><a href="$article_url" class="link" $highlight>$value[title]</a> <!--{if $value[status] == 1}-->({lang moderate_need})<!--{/if}--></h3>
+            <div class="meta"> <!--{if $value[catname]}--><span class="meta-column"><i></i><a href="{$portalcategory[$value['catid']]['caturl']}">$value[catname]</a></span> <span class="delim"></span><!--{/if}--><span class="meta-data">$value[dateline]</span> 
+              
+              <!--{if $_G['group']['allowmanagearticle'] || ($_G['group']['allowpostarticle'] && $value['uid'] == $_G['uid'] && (empty($_G['group']['allowpostarticlemod']) || $_G['group']['allowpostarticlemod'] && $value['status'] == 1)) || $categoryperm[$value['catid']]['allowmanage']}--> 
+              <span class="delim"></span><span><a href="portal.php?mod=portalcp&ac=article&op=edit&aid=$value[aid]">{lang edit}</a></span><span class="ml10"></span><span><a href="portal.php?mod=portalcp&ac=article&op=delete&aid=$value[aid]" id="article_delete_$value[aid]" onClick="showWindow(this.id, this.href, 'get', 0);">{lang delete}</a></span> 
+              <!--{/if}--> 
+            </div>
+            <p>$value[summary]</p>
+        </li>
+        <!--{/loop}--> 
+      </ul>
+      <!-- 文章列表 end --> 
+      <!--[diy=listloopbottom]-->
+      <div id="listloopbottom" class="area"></div>
+      <!--[/diy]--> 
+    </div>
+    <!--{ad/articlelist/mbm hm/3}--><!--{ad/articlelist/mbm hm/4}--> 
+    <!--{if $list['multi']}-->
+    <div class="pgs cl">{$list['multi']}</div>
+    <!--{/if}--> 
+    
+    <!--[diy=diycontentbottom]-->
+    <div id="diycontentbottom" class="area"></div>
+    <!--[/diy]--> 
+    
+  </div>
+  <div class="sd pph">
+    <div class="drag"> 
+      <!--[diy=diyrighttop]-->
+      <div id="diyrighttop" class="area"></div>
+      <!--[/diy]--> 
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- 分类 -->
+    <div class="list_box cl"> 
+      <!--{if $cat[subs]}-->
+      
+      <div class="portal-hd cl">
+        <h2>{lang sub_category}</h2>
+      </div>
+      <div class="portal_sort">
+        <ul>
+          <!--{loop $cat[subs] $value}-->
+          <li><a href="{$portalcategory[$value['catid']]['caturl']}">$value[catname]</a></li>
+          <!--{/loop}-->
+        </ul>
+      </div>
+      <!--{elseif $cat[others]}-->
+      <div class="portal-hd cl">
+        <h2>{lang category_related}</h2>
+      </div>
+      <div class="portal_sort">
+        <ul>
+          <!--{loop $cat[others] $value}-->
+          <li><a href="{$portalcategory[$value['catid']]['caturl']}">$value[catname]</a></li>
+          <!--{/loop}-->
+        </ul>
+      </div>
+      
+      <!--{/if}--> 
+    </div>
+    <!-- 分类end -->
+    
+
+    
+    <div class="wonderful">
+      
+      <div class="bd"> 
+        <!--[diy=wonderful-c]-->
+        <div id="wonderful-c" class="area"></div>
+        <!--[/diy]--> 
+      </div>
+    </div>
+    
+    
+    
+    <div class="ranking mt20">
+      <div class="hd"> 
+        <!--[diy=ranking-t]-->
+        <div id="ranking-t" class="area"></div>
+        <!--[/diy]--> 
+      </div>
+      <div class="bd">
+        <ul class="top10">
+          <!--[diy=ranking-con1]-->
+          <div id="ranking-con1" class="area"></div>
+          <!--[/diy]-->
+          
+        </ul>
+        <ul class="top10">
+          <!--[diy=ranking-con2]-->
+          <div id="ranking-con2" class="area"></div>
+          <!--[/diy]-->
+        </ul>
+        <ul class="top10">
+          <!--[diy=ranking-con3]-->
+          <div id="ranking-con3" class="area"></div>
+          <!--[/diy]-->
+          
+        </ul>
+      </div>
+    </div>
+    <div class="new-article">
+      <div class="portal-hd"> 
+        <!--[diy=new-article-t]-->
+        <div id="new-article-t" class="area"></div>
+        <!--[/diy]--> 
+      </div>
+      <div class="bd"> 
+        <!--[diy=new-article-c]-->
+        <div id="new-article-c" class="area"></div>
+        <!--[/diy]--> 
+        
+      </div>
+    </div>
+    <div class="right-ad mt20 cl"> 
+      <!--[diy=right-ad]-->
+      <div id="right-ad" class="area"></div>
+      <!--[/diy]--> 
+    </div>
+    
+    <div class="drag">
+	<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+	</div>
+
+  </div>
+</div>
+<div class="wp mtn"> 
+  <!--[diy=diy3]-->
+  <div id="diy3" class="area"></div>
+  <!--[/diy]--> 
+</div>
+<script type="text/javascript">
+jQuery(".wonderful").slide({ mainCell:".bd ul", effect:"leftLoop",easing:"easeInOutQuint",delayTime:500, vis:1, scroll:1,autoPlay:true });
+jQuery(".ranking").slide({ titCell:".hd li", mainCell:".bd",delayTime:0 });
+</script> 
+
+<!--{template common/footer}-->
